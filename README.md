@@ -17,7 +17,7 @@ Here's the [original PHP version](https://github.com/knuckleswtf/pastel).
 
 ## Installation
 ```bash
-composer require --dev knuckleswtf/pastel
+npm i -D @knuckleswtf/pastel
 ```
  
 ## Usage
