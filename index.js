@@ -82,13 +82,18 @@ if (frontmatter.includes) {
 }
 
 if (!frontmatter.last_updated) {
-/*    // Set last_updated to most recent time main or include files was modified
-    $timesLastUpdatedFiles = filePathsToInclude.map(function ($filePath) {
-        $realPath = realpath($filePath);
-        return $realPath ? filemtime($realPath) : 0;
+    // Set last_updated to most recent time main or include files was modified
+    const timesLastUpdatedFiles = filePathsToInclude.map(function (filePath) {
+        const realPath = path.resolve(filePath);
+        try {
+            return fs.statSync(realPath).mtime;
+        } catch (e) {
+            // If we encounter a nonexistent file
+            return 0;
+        }
     });
-    $timesLastUpdatedFiles.push(filemtime(sourceMarkdownFilePath));
-    frontmatter.last_updated = date("F j Y", $timesLastUpdatedFiles.max());*/
+    timesLastUpdatedFiles.push(fs.statSync(sourceMarkdownFilePath).mtime);
+    frontmatter.last_updated = new Date(Math.max(...timesLastUpdatedFiles));
 }
 
 const metadata = getPageMetadata(frontmatter);
