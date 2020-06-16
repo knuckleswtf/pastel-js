@@ -97,38 +97,31 @@ if (!frontmatter.last_updated) {
 }
 
 const metadata = getPageMetadata(frontmatter);
-/*
 
-$renderer = new BladeRenderer(
-    [__DIR__ + '/../resources/views'],
-    ['cache_path'
-:
-__DIR__.
-'/_tmp'
-]
-)
-;
-$output = $renderer.render('index', [
-    'page'
-:
-$metadata,
-    'content'
-:
-html,
-])
-;
+const ejs = require('ejs');
+const output = ejs.render(fs.readFileSync(path.join(__dirname, 'resources/views/index.ejs'), 'utf8'), {
+    page: metadata,
+    content: html,
+    tools: {
+        get_css_link_tag,
+        get_image_tag,
+        get_js_script_tag,
+    }
+});
 
-if (!is_dir(destinationFolder)) {
-    mkdir(destinationFolder, 0777, true);
+if (!fs.existsSync(destinationFolder)) {
+    fs.mkdirSync(destinationFolder, {recursive: true});
 }
 
-file_put_contents(destinationFolder + '/index.html', $output);
+fs.writeFileSync(destinationFolder + '/index.html', output);
 
+/*
 // Copy assets
 rcopy(assetsFolder + '/images/', destinationFolder + '/images');
 rcopy(assetsFolder + '/css/', destinationFolder + '/css');
 rcopy(assetsFolder + '/js/', destinationFolder + '/js');
 rcopy(assetsFolder + '/fonts/', destinationFolder + '/fonts');
+
 */
 
 console.log(`Generated documentation from ${sourceMarkdownFilePath} to ${destinationFolder}.`);
@@ -140,6 +133,21 @@ function getPageMetadata(frontmatter) {
     // Override default with values from front matter
     metadata = Object.assign({}, metadata, frontmatter);
     return metadata;
+}
+
+function get_css_link_tag(name, media = '')
+{
+    return `<link rel="stylesheet" href="css/${name}.css" media="${media}" />`;
+}
+
+function get_js_script_tag(name)
+{
+    return `<script src="js/${name}.js"></script>`;
+}
+
+function get_image_tag(path, className = '')
+{
+    return `<img src="${path}" alt="${className}-image" class="${className}"/>`;
 }
 
 module.exports = generate;
