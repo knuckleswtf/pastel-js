@@ -1,7 +1,6 @@
 const log = require("debug")("pastel");
 const fs = require('fs');
 const path = require('path');
-const yaml = require('js-yaml');
 
 const defaultMetadata = {
     'title': 'API Documentation',
@@ -37,17 +36,21 @@ async function generate(sourceFolder, destinationFolder = '') {
         assetsFolder = sourceFolder;
     }
 
-    if (!destinationFolder))
+    if (!destinationFolder) {
+        // If no destination is supplied, place it in the source folder
+        destinationFolder = sourceFolder;
+    }
 
-{
-    // If no destination is supplied, place it in the source folder
-    destinationFolder = sourceFolder;
-}
+const yamlFront = require('yaml-front-matter');
+const yaml = yamlFront.loadFront(fs.readFileSync(sourceMarkdownFilePath, 'utf8'));
 
-const $document = yaml.safeLoadAll(fs.readFileSync(sourceMarkdownFilePath, 'utf8'));
+let content = yaml.__content;
+let frontmatter = yaml;
+delete frontmatter.__content;
 
-let html = $document.getContent();
-let frontmatter = $document.getYAML();
+const showdown  = require('showdown');
+const converter = new showdown.Converter();
+let html = converter.makeHtml(content);
 
 let filePathsToInclude = [];
 
@@ -57,37 +60,39 @@ if (frontmatter.includes) {
         .map(
             include => sourceFolder.replace(/\/$/g, '') + '/' + include.replace(/^\//g, '')
         );
-    filePathsToInclude.forEach(($filePath) => {
-        if ($filePath.includes('*')) {
-            foreach(glob($filePath) as $file)
+
+    const glob = require("glob");
+    filePathsToInclude.forEach((filePath) => {
+        const fullPath = path.resolve(filePath);
+        if (fullPath.includes('*')) {
+            for (let file of glob.sync(fullPath))
             {
                 if (!['.', '..'].includes(file)) {
-                    html += $parser.parse(file_get_contents($file)).getContent();
+                    html += converter.makeHtml(fs.readFileSync(file, 'utf8'));
                 }
             }
         } else {
-            $path = realpath($filePath);
-            if ($path === false) {
-                $this.output.warn("Include file $filePath not found.");
+            if (!fs.existsSync(fullPath)) {
+                console.log(`Include file ${fullPath} not found.`);
                 return;
             }
-            html += $parser.parse(file_get_contents($path)).getContent();
+            html += converter.makeHtml(fs.readFileSync(fullPath, 'utf8'));
         }
     });
 }
 
 if (!frontmatter.last_updated) {
-    // Set last_updated to most recent time main or include files was modified
+/*    // Set last_updated to most recent time main or include files was modified
     $timesLastUpdatedFiles = filePathsToInclude.map(function ($filePath) {
         $realPath = realpath($filePath);
         return $realPath ? filemtime($realPath) : 0;
     });
     $timesLastUpdatedFiles.push(filemtime(sourceMarkdownFilePath));
-    frontmatter.last_updated = date("F j Y", $timesLastUpdatedFiles.max());
+    frontmatter.last_updated = date("F j Y", $timesLastUpdatedFiles.max());*/
 }
 
-// Allow overriding options set in front matter from config
-$metadata = getPageMetadata(frontmatter, $metadataOverrides);
+const metadata = getPageMetadata(frontmatter);
+/*
 
 $renderer = new BladeRenderer(
     [__DIR__ + '/../resources/views'],
@@ -119,8 +124,9 @@ rcopy(assetsFolder + '/images/', destinationFolder + '/images');
 rcopy(assetsFolder + '/css/', destinationFolder + '/css');
 rcopy(assetsFolder + '/js/', destinationFolder + '/js');
 rcopy(assetsFolder + '/fonts/', destinationFolder + '/fonts');
+*/
 
-console.log("Generated documentation from sourceMarkdownFilePath to destinationFolder.");
+console.log(`Generated documentation from ${sourceMarkdownFilePath} to ${destinationFolder}.`);
 }
 
 function getPageMetadata(frontmatter) {
@@ -130,3 +136,5 @@ function getPageMetadata(frontmatter) {
     metadata = Object.assign({}, metadata, frontmatter);
     return metadata;
 }
+
+module.exports = generate;

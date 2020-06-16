@@ -7,7 +7,7 @@ program
     .command('generate <source> [destination]')
     .description("Generate HTML/CSS/JS documentation from a Markdown file or source folder  containing Markdown + assets..")
     .action(async (source, destination) => {
-        require('index')(source, destination);
+        require('./index')(source, destination);
     });
 
 program.parse(process.argv);
