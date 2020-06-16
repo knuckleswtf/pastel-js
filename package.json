@@ -6,7 +6,7 @@
   "bin": "cli.js",
   "scripts": {
     "lint": "eslint index.js cli.js",
-    "test": ""
+    "test": "echo 1"
   },
   "repository": {
     "type": "git",

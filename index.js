@@ -28,8 +28,8 @@ async function generate(sourceFolder, destinationFolder = '') {
         sourceFolder = path.dirname(sourceMarkdownFilePath);
         assetsFolder = __dirname + '/resources';
     } else {
-        if (!is_dir(sourceFolder)) {
-            throw new InvalidArgumentException(`Source folder ${sourceFolder} is not a directory.`);
+        if (!fs.existsSync(sourceFolder)) {
+            throw new Error(`Source folder ${sourceFolder} does not exist.`);
         }
 
         // Valid source directory
