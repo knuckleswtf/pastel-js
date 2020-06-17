@@ -1,6 +1,6 @@
 # Pastel for Node.js 🎨
  
-[![Build Status](https://travis-ci.com/knuckleswtf/pastel.svg?branch=master)](https://travis-ci.com/knuckleswtf/pastel-js)
+[![Build Status](https://travis-ci.com/knuckleswtf/pastel-js.svg?branch=master)](https://travis-ci.com/knuckleswtf/pastel-js)
 [![npm version](https://badge.fury.io/js/%40knuckleswtf%2Fpastel.svg)](https://badge.fury.io/js/%40knuckleswtf%2Fpastel)
 [![npm](https://img.shields.io/npm/dt/@knuckleswtf/pastel)](https://www.npmjs.com/package/@knuckleswtf/pastel)
  
