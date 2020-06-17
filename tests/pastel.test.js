@@ -18,12 +18,8 @@ const defaultMetadata = {
     'last_updated': '',
 };
 
-afterEach(() => {
-    try {
-        fs.rmdirSync(__dirname + '/output');
-    } catch (e) {
-
-    }
+afterAll(() => {
+    fs.rmdirSync(path.resolve(__dirname + '/output'), { recursive: true });
 });
 
 
