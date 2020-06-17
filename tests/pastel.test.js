@@ -5,7 +5,6 @@ const cheerio = require('cheerio');
 const generate = require('../index');
 
 const outputDir = __dirname + '/output';
-const assertionDir = __dirname + '/assertions';
 
 const defaultMetadata = {
     'title': 'API Documentation',
