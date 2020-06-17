@@ -60,7 +60,9 @@ async function generate(sourceFolder, destinationFolder = '') {
             }
         });
         timesLastUpdatedFiles.push(fs.statSync(sourceMarkdownFilePath).mtime);
-        frontmatter.last_updated = new Date(Math.max(...timesLastUpdatedFiles));
+        const lastUpdated = new Date(Math.max(...timesLastUpdatedFiles));
+        frontmatter.last_updated = new Intl.DateTimeFormat('en-US', {month: 'long', 'day': 'numeric', year: 'numeric'})
+            .format(lastUpdated);
     }
 
     const metadata = getPageMetadata(frontmatter);

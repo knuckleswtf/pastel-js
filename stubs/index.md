@@ -13,7 +13,7 @@ language_tabs:
 # HTMl to add in the footer of the sidebar (table of contents)
 toc_footers:
   - <a href='#'>Sign up for a developer key</a>
-  - <a href='https://github.com/knuckleswtf/pastel'>Documentation powered by Pastel 🎨</a>
+  - <a href='https://github.com/knuckleswtf/pastel-js'>Documentation powered by Pastel 🎨</a>
 
 # If you want a logo on the sidebar, set this to the path to the logo image file. Must be either a URL or a path relative to the docs destination from a browser.
 logo: false
