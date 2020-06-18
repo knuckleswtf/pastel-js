@@ -5,7 +5,8 @@
 [![npm](https://img.shields.io/npm/dt/@knuckleswtf/pastel)](https://www.npmjs.com/package/@knuckleswtf/pastel)
  
 Pastel is a tool for generating pretty API documentation from Markdown. Write your docs in Markdown and let Pastel convert it to a HTML page, complete with:
-- syntax highlighting for code examples
+- mobile responsiveness
+- syntax highlighting for code examples in multiple languages
 - a table of contents for easy navigation
 - search functionality
 - automatic "Last updated" tag, so your users know how fresh the docs are 
@@ -30,7 +31,7 @@ npm i -D @knuckleswtf/pastel
 ```
  
 ## Usage
-Pastel is like Documentarian and Slate, but simpler and with a somewhat different paradigm. You shouldn't need to write any JS, just Markdown and some HTML if you want. Here's what you need to know:
+With Pastel, you write your docs in Markdown, and you get complete HTML/CSS?JS output. Here's what you need to know:
  
 ### How do I write my docs in Markdown?
 Start off with a single Markdown file. There are two parts:
@@ -40,7 +41,7 @@ Your Markdown file should contain your docs, written as you like. There's no set
   
 There's a good example in the included example Markdown ([stubs/index.md](./stubs/index.md)) and the resulting HTML output ([docs/index.html](./docs/index.html)).
  
-For a full explanation of the supported Markdown syntax, see [How to Edit Slate Markdown files](https://github.com/slatedocs/slate/wiki/Markdown-Syntax)
+Pastel uses the same Markdown syntax as Slate. See [How to Edit Slate Markdown files](https://github.com/slatedocs/slate/wiki/Markdown-Syntax)
  
 #### The front matter
 The front matter is a YAML section in your Markdown file that comes before the actual content. It's separated from the main content by a line before and after it containing only "---" (see [stubs/index.md](./stubs/index.md)).
@@ -82,11 +83,11 @@ includes:
 - ./includes/errors.md
 ```
  
-Alternatively, you can use `*` as a wildcard. Note that, in this case, files will be included in alphabetical order.
+You can also use `*` as a wildcard. In this case, files matching the pattern will be included in alphabetical order.
  
 ```
 includes:
-- ./includes/*
+- ./includes/*.md
 ```
  
 - `last_updated`: The date on which the docs were last updated. Helpful so your users know if they're looking at something stale. Leave this empty and it will automatically be set to the most recent time you edited your Markdown files (main or includes). If you want to set this manually, you can write whatever you want here. Pastel will render it as is.
@@ -94,25 +95,20 @@ includes:
 Most of these sections can be disabled in the generated documentation by omitting them from the front matter.
  
 ### How do I convert my Markdown file to HTML docs?
-If you've installed this using Composer, you can just run the CLI script (`vendor/bin/pastel`). Here's how you'd use it:
- 
+
 ```bash
-vendor/bin/pastel generate docs_source/index.md docs
+./node_modules/.bin/pastel generate docs_source/index.md docs
 ```
+
+This will generate a new API documentation from the file `docs_source/index.md` and place the output in your docs/ directory. You can replace `docs_source/index.md` with vendor/knuckleswtf/pastel/stubs/index.md to use the sample Markdown docs included with this package.
+
  
-This will generate a new API documentation from the file docs_source/index.md and place the output in your docs/ directory. You can replace docs_source/index.md with vendor/knuckleswtf/pastel/stubs/index.md to use the sample API included with this package.
+You can also call Pastel from Node.js. This is especially useful if you're building a tool on top of this. Here's how you'd use it:
  
-You can also pass in metadata values to override the ones set in the front matter:
+```js
  
-```bash
-vendor/bin/pastel generate docs_source/index.md docs --metadata logo=https://slatedocs.github.io/slate/images/logo.png --metadata toc_footers="<a>First</a>,<a>Second</a>"
-```
- 
-You can also call Pastel from PHP. This is especially useful if you're building a tool on top of this. Here's how you'd use it:
- 
-```php
- $pastel = new Knuckles\Pastel\Pastel();
- $pastel->generate("docs_source/index.md", "docs", $metadataOverrides);
+const { generate } = require('@knuckleswtf/pastel');
+generate("docs_source/index.md", "docs");
 ```
 ### Styling helpers
 #### Badges
@@ -150,8 +146,8 @@ You can help your lower-level headings stand out by using the `fancy-heading-pan
 You can add little highlighted warnings and notes using the `<aside>` tag and either of the classes "notice", "warning", or "success".
 
 ## Integrations
-- [Scribe](https://github.com/knuckleswtf/scribe-js): Generate documentation for your Laravel API from your codebase.
+- [Scribe](https://github.com/knuckleswtf/scribe-js): Generate documentation for your Express/ API from your codebase.
 
 ## Todo
 - Custom favicon support
-- Custom templates
+- Customizable output templates

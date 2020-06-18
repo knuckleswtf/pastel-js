@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const cheerio = require('cheerio');
 
-const generate = require('../index');
+const { generate } = require('../index');
 
 const outputDir = __dirname + '/output';
 

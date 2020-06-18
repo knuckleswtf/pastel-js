@@ -139,4 +139,4 @@ async function copyAssets(assetsFolder, destinationFolder) {
     }
 }
 
-module.exports = generate;
+module.exports = { generate };
