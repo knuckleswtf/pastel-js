@@ -106,7 +106,6 @@ This will generate a new API documentation from the file `docs_source/index.md` 
 You can also call Pastel from Node.js. This is especially useful if you're building a tool on top of this. Here's how you'd use it:
  
 ```js
- 
 const { generate } = require('@knuckleswtf/pastel');
 generate("docs_source/index.md", "docs");
 ```
