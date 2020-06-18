@@ -13,7 +13,7 @@ Pastel is a tool for generating pretty API documentation from Markdown. Write yo
 - a logo, if you like
 - custom HTML and CSS helpers for when you want to apply special styles
   
-Want to see it in action? [Here's what the output looks like.](https://knuckleswtf.github.io/pastel)
+Want to see it in action? [Here's what the output looks like](https://knuckleswtf.github.io/pastel-js).
  
 Here's the [original PHP version](https://github.com/knuckleswtf/pastel).
  
