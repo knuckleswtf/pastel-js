@@ -112,6 +112,7 @@ function includeSpecifiedMarkdownFiles(filePathsToInclude) {
     filePathsToInclude.forEach((filePath) => {
         if (filePath.includes('*')) {
             for (let file of glob.sync(filePath)) {
+                log(`Including file ${file}`);
                 extraContent += converter.makeHtml(fs.readFileSync(file, 'utf8'));
             }
         } else {
@@ -119,6 +120,7 @@ function includeSpecifiedMarkdownFiles(filePathsToInclude) {
                 console.log(`Include file ${filePath} not found.`);
                 return;
             }
+            log(`Including file ${filePath}`);
             extraContent += converter.makeHtml(fs.readFileSync(filePath, 'utf8'));
         }
     });
@@ -126,6 +128,8 @@ function includeSpecifiedMarkdownFiles(filePathsToInclude) {
 }
 
 async function copyAssets(assetsFolder, destinationFolder) {
+    log(`Copying assets from ${assetsFolder} to ${destinationFolder}`);
+
     const ncp = require('ncp').ncp;
     const ncp2 = require('util').promisify(ncp);
 
