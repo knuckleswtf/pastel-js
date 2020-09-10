@@ -1,6 +1,6 @@
 {
   "name": "@knuckleswtf/pastel",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Generate pretty API documentation from Markdown.",
   "main": "index.js",
   "bin": "cli.js",
